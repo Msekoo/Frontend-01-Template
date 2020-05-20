@@ -1,0 +1,40 @@
+/*
+ * @Author: your name
+ * @Date: 2020-05-19 10:11:00
+ * @LastEditTime: 2020-05-19 10:30:01
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /my-geek/week06/toy-browser/server.js
+ */ 
+const http = require("http");
+
+const server = http.createServer((req, res) => {
+    console.log(`request received`);
+    // console.log(req.headers);
+    // console.log("req", req)
+    res.setHeader('Content-Type', 'text/html');
+    res.setHeader('X-Foo', 'bar');
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end(`<html maaa=a >
+    <head>
+        <style>
+    body div #myid{
+        width:100px;
+        background-color: #ff5000;
+    }
+    body div img{
+        width:30px;
+        background-color: #ff1111;
+    }
+        </style>
+    </head>
+    <body>
+        <div>
+            <img id="myid"/>
+            <img />
+        </div>
+    </body>
+    </html>`);
+});
+
+server.listen(8088);

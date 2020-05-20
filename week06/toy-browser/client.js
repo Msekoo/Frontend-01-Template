@@ -1,5 +1,5 @@
 const net = require("net");
-
+const parser = require("./parser");
 // 请求类
 class Request {
     // method, url = host + port + path
@@ -220,7 +220,8 @@ void async function () {
         }
     });
     let response = await request.send();
-    console.log(response);
+    let dom = parser.parseHTML(response.body);
+    // console.log(response);
 }();
 
 // const client = net.createConnection({
