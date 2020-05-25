@@ -1,8 +1,13 @@
+const { addCSSRules, computeCSS } = require('./cssParse')
+
 const EOF = Symbol("EOF"); // EOF: End Of File 标识文件结束
+
 let currentToken = null;
 let currentAttribute = null;
 let stack = [{ type: "document", children: [] }];
 let currentTextNode = null;
+
+
 
 function emit(token) { 
     // if (token.type !== 'text')
@@ -28,6 +33,8 @@ function emit(token) {
             }
         }
 
+        computeCSS(element, stack);
+
         top.children.push(element);
         element.parent = top;
 
@@ -39,6 +46,10 @@ function emit(token) {
         if (top.tagName !== token.tagName) {
             throw new Error("Tag start end doesn't match!");
         } else {
+            // 遇到style标签时，执行添加所有css规则的操作
+            if (top.tagName === "style") {
+                addCSSRules(top.children[0].content);
+            }
             stack.pop();
         }
         currentTextNode = null;
@@ -305,5 +316,4 @@ module.exports.parseHTML = function parseHTML(html) {
     }
     state = state(EOF);
     console.log(stack[0])
-    
 }

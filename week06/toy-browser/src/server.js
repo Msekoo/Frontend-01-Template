@@ -1,11 +1,3 @@
-/*
- * @Author: your name
- * @Date: 2020-05-19 10:11:00
- * @LastEditTime: 2020-05-19 10:30:01
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: /my-geek/week06/toy-browser/server.js
- */ 
 const http = require("http");
 
 const server = http.createServer((req, res) => {
