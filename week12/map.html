@@ -144,7 +144,9 @@
 
         async function findPath(map, start, end) { 
             map = Object.create(map); //  map.slice();
-            
+            let table = new Array(10000).fill(Infinity);
+            table[start[1] * 100 + start[0]] = 0;
+
             const distance = ([x, y]) => {
                 return (x - end[0]) ** 2 + (y - end[1]) ** 2;
             }
@@ -155,12 +157,16 @@
             container.children[start[1] * 100 + start[0]].style.backgroundColor = "green";
             container.children[end[1] * 100 + end[0]].style.backgroundColor = "blue";
 
-            const insert = async ([x, y], pre) => { 
-                if(map[100 * y + x] !== 0)
+            const insert = async ([x, y], pre, fromStart) => { 
+                if(map[100 * y + x] === 1)
                     return;
                 if(x < 0 || y < 0 || x >= 100 || y >= 100)
                     return;
+                // 路径比当前已存路径距离更大，直接返回
+                if(fromStart >= table[100 * y + x])
+                    return;
                 map[100 * y + x] = pre;
+                table[100 * y + x] = fromStart;
                 container.children[y * 100 + x].style.backgroundColor = "lightgreen";
                 await sleep(3);
                 collection.insert([x, y]);
@@ -168,6 +174,7 @@
 
             while(collection.length){
                 let [x, y] = collection.take(); //pop unshift / push shift 改成pop是深搜
+                let fromStart = table[100 * y + x];
                 if(x === end[0] && y === end[1]){
                     let path = [];
                     while(x !== start[0] || y !== start[1]){
@@ -178,15 +185,16 @@
                     }
                     return path;
                 }
-                await insert([x - 1, y], [x, y]);
-                await insert([x + 1, y], [x, y]);
-                await insert([x, y - 1], [x, y]);
-                await insert([x, y + 1], [x, y]);
+                await insert([x - 1, y], [x, y], fromStart + 1);
+                await insert([x + 1, y], [x, y], fromStart + 1);
+                await insert([x, y - 1], [x, y], fromStart + 1);
+                await insert([x, y + 1], [x, y], fromStart + 1);
 
-                await insert([x - 1, y - 1], [x, y]);
-                await insert([x + 1, y - 1], [x, y]);
-                await insert([x - 1, y + 1], [x, y]);
-                await insert([x + 1, y + 1], [x, y]);
+
+                await insert([x - 1, y - 1], [x, y], fromStart + 1.4);
+                await insert([x + 1, y - 1], [x, y], fromStart + 1.4);
+                await insert([x - 1, y + 1], [x, y], fromStart + 1.4);
+                await insert([x + 1, y + 1], [x, y], fromStart + 1.4);
             }
             return null;
          }
