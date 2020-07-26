@@ -40,9 +40,9 @@ document.getElementById("resume-btn").addEventListener('click', () => {
 document.getElementById("restart-btn").addEventListener('click', () => {
     tl.restart()
 })
-// document.getElementById("el2-start-btn").addEventListener('click', () => {
-//     tl.add(new Animation(el2.style, "transform", 0, 200, 5000, 0, linear, v => `translateX(${v}px)`));
-// })
+document.getElementById("el2-start-btn").addEventListener('click', () => {
+    tl.add(new Animation(el2.style, "transform", 0, 200, 5000, 0, linear, v => `translateX(${v}px)`), 1000);
+})
 document.getElementById("color-change").addEventListener('click', () => {
     tl.add(new ColorAnimation(el.style, "backgroundColor", 
     {r: 255, g: 255, b: 255, a: 1}, {r: 0, g: 255, b: 0, a: 1}, 5000, 0, linear));

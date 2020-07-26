@@ -26,7 +26,7 @@ export class Timeline {
         this.state = "paused"
         this.pauseTime = Date.now();
         if (this.requestID)
-            cancelAnimationFrame(this.requestID)
+            cancelAnimationFrame(this.requestID)        
     }
     resume() {
         if (this.state !== "paused")
@@ -44,12 +44,12 @@ export class Timeline {
     }
     restart() {
         if (this.state === "palying")
-            this.pause();
-        this.animations = [];
+            this.pause();        
         this.requestID = null;
+        this.pauseTime = null;
         this.state = "playing";
         this.startTime = Date.now();
-        this.pauseTime = null;
+        this.animations.forEach(animation => animation.finished = false);
         this.tick();
     }
     add(animation, addTime) {
