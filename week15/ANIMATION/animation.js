@@ -7,8 +7,8 @@ export class Timeline {
             let t = Date.now() - this.startTime;
             let animations = this.animations.filter(animation => !animation.finished);
             for (let animation of animations) {
-                let {object, duraction, property, start, end, timingFunction, template, delay, addTime} = animation
-                let progression = timingFunction((t - delay) / duraction);
+                let { object, duraction, property, timingFunction, template, delay, addTime } = animation;
+                let progression = timingFunction((t - delay - addTime) / duraction);
                 if (t > duraction + delay + addTime) {
                     progression = 1;
                     animation.finished = true;
