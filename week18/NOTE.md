@@ -1,1 +1,13 @@
-# 每周总结可以写在这里
+# Dev工具
+
+## Server
+
+* build: webpack babel vue jsx postcss ....
+* watch: fsevent
+* mock: ...
+* http: wx
+
+## Client
+
+* debugger: vscode devtool (作为client端，通过websocket与服务端（browser，node）通讯))
+* source map
